@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/common/resources/app_colors.dart';
 import 'package:todo_app/common/resources/index.dart';
-import 'package:todo_app/common/widgets/default_app_bar.dart';
 import 'package:todo_app/common/utils/extensions/extension.dart';
+import 'package:todo_app/common/widgets/default_app_bar.dart';
 import 'package:todo_app/common/widgets/spacing.dart';
 import 'package:todo_app/routes/app_routes.dart';
 
@@ -14,14 +13,16 @@ class TaskDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Task? task  = context.getRouteArguments();
+    final Task? task = context.getRouteArguments();
     return Scaffold(
       appBar: DefaultAppBar(
         titleText: Strings.localized.taskDetail,
         trailingActions: [
-          IconButton(onPressed: () {
-            Navigator.popAndPushNamed(context, RouterName.editTask, arguments: task);
-          }, icon: Icon(Icons.edit))
+          IconButton(
+              onPressed: () {
+                Navigator.popAndPushNamed(context, RouterName.editTask, arguments: task);
+              },
+              icon: Icon(Icons.edit))
         ],
       ),
       body: Column(
@@ -45,21 +46,35 @@ class TaskDetailPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(Strings.localized.name, style: TextStyles.blackNormalBold,),
+                      Text(
+                        Strings.localized.name,
+                        style: TextStyles.blackNormalBold,
+                      ),
                       const TitleSpacing(),
                       Text(task?.name ?? 'NA', style: TextStyles.blackSmallRegular),
                       const Spacing(),
-                      Text(Strings.localized.description, style: TextStyles.blackNormalBold,),
+                      Text(
+                        Strings.localized.description,
+                        style: TextStyles.blackNormalBold,
+                      ),
                       const TitleSpacing(),
                       Text(task?.desc ?? 'NA', style: TextStyles.blackSmallRegular),
                       const Spacing(),
-                      Text(Strings.localized.createdAt, style: TextStyles.blackNormalBold,),
+                      Text(
+                        Strings.localized.createdAt,
+                        style: TextStyles.blackNormalBold,
+                      ),
                       const TitleSpacing(),
-                      Text(task?.createAt?.toMMDDYYHHMMAString() ?? 'NA', style: TextStyles.blackSmallRegular),
+                      Text(task?.createAt?.toMMDDYYHHMMAString() ?? 'NA',
+                          style: TextStyles.blackSmallRegular),
                       const Spacing(),
-                      Text(Strings.localized.expiredAt, style: TextStyles.blackNormalBold,),
+                      Text(
+                        Strings.localized.expiredAt,
+                        style: TextStyles.blackNormalBold,
+                      ),
                       const TitleSpacing(),
-                      Text(task?.expiredAt?.toMMDDYYHHMMAString() ?? 'NA', style: TextStyles.blackSmallRegular),
+                      Text(task?.expiredAt?.toMMDDYYHHMMAString() ?? 'NA',
+                          style: TextStyles.blackSmallRegular),
                     ],
                   ),
                 ),

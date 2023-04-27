@@ -16,7 +16,6 @@ abstract class TaskService {
   Future<DataState<bool>> deleteTask(String taskId);
 }
 
-@LazySingleton(as: TaskService)
 class TaskServiceImpl implements TaskService {
   TaskServiceImpl() : ref = FirebaseDatabase.instance.ref();
   final DatabaseReference ref;

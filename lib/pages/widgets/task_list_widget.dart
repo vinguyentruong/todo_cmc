@@ -10,7 +10,7 @@ import '../todo/helper/task_options.dart';
 import 'detail_option_widget.dart';
 
 class TaskListWidget extends StatelessWidget {
-  const TaskListWidget({
+  const   TaskListWidget({
     Key? key,
     required this.tasks,
     this.onItemTapped,

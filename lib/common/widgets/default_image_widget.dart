@@ -42,51 +42,32 @@ class DefaultImageWidget extends StatelessWidget {
                 height: height,
                 fit: fit ?? BoxFit.cover,
               )
-            : Image.memory(
-                base64Decode(image ?? ''),
-                width: width,
-                height: height,
-                fit: fit ?? BoxFit.cover,
-                errorBuilder: (_, __, dynamic error) => imageFile != null
-                    ? Image.file(
-                        imageFile!,
-                        width: width,
-                        height: height,
-                        fit: fit ?? BoxFit.cover,
-                      )
-                    : Image.asset(
-                        AssetImages.imgDefault,
-                        width: width,
-                        height: height,
-                        fit: fit ?? BoxFit.cover,
-                      ),
-              ),
-
-        //     : CachedNetworkImage(
-        //   imageUrl: image,
-        //   width: width,
-        //   height: height,
-        //   fit: fit ?? BoxFit.cover,
-        //   placeholder: (_, __) => Image.asset(
-        //     AssetImages.imgDefault,
-        //     width: width,
-        //     height: height,
-        //     fit: fit ?? BoxFit.cover,
-        //   ),
-        //   errorWidget: (_, __, dynamic error) => imageFile != null
-        //       ? Image.file(
-        //           imageFile!,
-        //           width: width,
-        //           height: height,
-        //           fit: fit ?? BoxFit.cover,
-        //         )
-        //       : Image.asset(
-        //           AssetImages.imgDefault,
-        //           width: width,
-        //           height: height,
-        //           fit: fit ?? BoxFit.cover,
-        //         ),
-        // ),
+            : image != null
+                ? Image.memory(
+                    base64Decode(image ?? ''),
+                    width: width,
+                    height: height,
+                    fit: fit ?? BoxFit.cover,
+                    errorBuilder: (_, __, dynamic error) => imageFile != null
+                        ? Image.file(
+                            imageFile!,
+                            width: width,
+                            height: height,
+                            fit: fit ?? BoxFit.cover,
+                          )
+                        : Image.asset(
+                            AssetImages.imgDefault,
+                            width: width,
+                            height: height,
+                            fit: fit ?? BoxFit.cover,
+                          ),
+                  )
+                : Image.asset(
+                    AssetImages.imgDefault,
+                    width: width,
+                    height: height,
+                    fit: fit ?? BoxFit.cover,
+                  ),
       ),
     );
   }

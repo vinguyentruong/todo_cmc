@@ -1,5 +1,6 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
+import 'package:todo_app/pages/inprogress/controller/inprogress_state.dart';
 
 import '../../../common/api_client/data_state.dart';
 import '../../../common/enums/data_source_status.dart';
@@ -8,55 +9,53 @@ import '../../../common/event/event_bus_mixin.dart';
 import '../../../models/task.dart';
 import '../../../repositories/task_repository.dart';
 import '../../helper/event_bus/task_events.dart';
-import 'inprogress_state.dart';
 
-@Injectable()
-class InProgressCubit extends Cubit<InProgressState> with EventBusMixin {
-  InProgressCubit(this._taskRepository) : super(const InProgressState()) {
+class InProgressController extends GetxController with EventBusMixin {
+  InProgressController(this._taskRepository) {
     listenEvent<OnCreateTaskEvent>((_) => _getTasks());
     listenEvent<OnUpdateTaskEvent>((_) => _getTasks());
     listenEvent<OnDeleteTaskEvent>((_) => _getTasks());
   }
 
   TaskRepository _taskRepository;
+  Rx<InProgressState> state = InProgressState().obs;
 
   Future<void> initData() async {
     _getTasks();
   }
 
   Future<void> _getTasks() async {
-    emit(state.copyWith(dataStatus: DataSourceStatus.loading));
+    state(state.value.copyWith(dataStatus: DataSourceStatus.loading));
     try {
       final result = await _taskRepository.getCachedTasks();
       if (result != null) {
-        final tasks =
-        result.where((element) => element.status == TaskStatus.inprogress).toList();
-        emit(state.copyWith(task: tasks, dataStatus: DataSourceStatus.refreshing));
+        final tasks = result.where((element) => element.status == TaskStatus.inprogress).toList();
+        state(state.value.copyWith(task: tasks, dataStatus: DataSourceStatus.refreshing));
       } else {
-        emit(state.copyWith(dataStatus: DataSourceStatus.failed));
+        state(state.value.copyWith(dataStatus: DataSourceStatus.failed));
       }
       _fetchTasks();
     } catch (e) {
-      emit(state.copyWith(dataStatus: DataSourceStatus.failed));
+      state(state.value.copyWith(dataStatus: DataSourceStatus.failed));
     }
   }
 
   Future<void> _fetchTasks() async {
-    emit(state.copyWith(dataStatus: DataSourceStatus.refreshing));
+    state(state.value.copyWith(dataStatus: DataSourceStatus.refreshing));
     try {
       final result = await _taskRepository.getTasks();
       if (result is DataSuccess) {
-        final tasks = result.data?.where((element) => element.status == TaskStatus.inprogress).toList();
-        emit(state.copyWith(
+        final tasks =
+            result.data?.where((element) => element.status == TaskStatus.inprogress).toList();
+        state(state.value.copyWith(
             task: tasks,
-            dataStatus: (tasks?.isNotEmpty ?? false)
-                ? DataSourceStatus.success
-                : DataSourceStatus.empty));
+            dataStatus:
+                (tasks?.isNotEmpty ?? false) ? DataSourceStatus.success : DataSourceStatus.empty));
       } else {
-        emit(state.copyWith(dataStatus: DataSourceStatus.failed));
+        state(state.value.copyWith(dataStatus: DataSourceStatus.failed));
       }
     } catch (e) {
-      emit(state.copyWith(dataStatus: DataSourceStatus.failed));
+      state(state.value.copyWith(dataStatus: DataSourceStatus.failed));
     }
   }
 
@@ -68,12 +67,12 @@ class InProgressCubit extends Cubit<InProgressState> with EventBusMixin {
     if (task?.id == null) {
       return;
     }
-    emit(state.copyWith(status: RequestStatus.requesting));
+    state(state.value.copyWith(status: RequestStatus.requesting));
     try {
       final result = await _taskRepository.deleteTask(task!.id!);
       if (result is DataSuccess) {
-        final newTasks = state.tasks?..removeWhere((element) => element.id == task.id);
-        emit(state.copyWith(
+        final newTasks = state.value.tasks?..removeWhere((element) => element.id == task.id);
+        state(state.value.copyWith(
             task: newTasks,
             status: RequestStatus.success,
             dataStatus: (newTasks?.isNotEmpty ?? false)
@@ -81,13 +80,13 @@ class InProgressCubit extends Cubit<InProgressState> with EventBusMixin {
                 : DataSourceStatus.empty));
         shareEvent(OnDeleteTaskEvent(task));
       } else {
-        emit(state.copyWith(
+        state(state.value.copyWith(
           status: RequestStatus.failed,
           message: result.message,
         ));
       }
     } catch (e) {
-      emit(state.copyWith(status: RequestStatus.failed, message: e.toString()));
+      state(state.value.copyWith(status: RequestStatus.failed, message: e.toString()));
     }
   }
 }

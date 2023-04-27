@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/configs/firebase_config.dart';
+import 'package:todo_app/di/injection.dart';
 
 import 'configs/build_config.dart';
-import 'di/injection.dart';
 import 'pages/app.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<void> mainCommon() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ Future<void> mainCommon() async {
           )
         : null,
   );
-  await configureDependencies();
+  await injectDependencies();
   if (BuildConfig.debugLog) {
     Bloc.observer = AppBlocObserver();
   }

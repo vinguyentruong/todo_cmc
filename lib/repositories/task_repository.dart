@@ -22,7 +22,6 @@ abstract class TaskRepository {
   Future<DataState<List<Task>>> searchTasks(String text);
 }
 
-@LazySingleton(as: TaskRepository)
 class TaskRepositoryImpl implements TaskRepository {
   TaskRepositoryImpl(
       {required TaskService userService, required TaskLocalDatasource taskLocalDatasource})

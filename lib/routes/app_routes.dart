@@ -20,6 +20,8 @@ class RouterName {
 class AppRoutes {
   static Route<dynamic>? onGenerateRoutes(RouteSettings settings) {
     switch (settings.name) {
+      case RouterName.bootstrap:
+        return _materialRoute(settings, const MainPage());
       case RouterName.taskDetail:
         return _materialRoute(settings, const TaskDetailPage());
       case RouterName.createTask:

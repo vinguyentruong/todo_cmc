@@ -3,7 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:todo_app/common/api_client/data_state.dart';
 import 'package:todo_app/data/task/response_models/task_model.dart';
 import 'package:todo_app/models/task.dart';
-import 'package:todo_app/pages/todo/bloc/todo_cubit.dart';
+import 'package:todo_app/pages/todo/controller/todo_controller.dart';
 import 'package:todo_app/repositories/task_repository.dart';
 
 import '../repository/task_repository_test.mocks.dart';
@@ -12,19 +12,19 @@ void main() {
   late MockTaskService service;
   late MockTaskLocalDatasource localDatasource;
   late TaskRepository repository;
-  late TodoCubit todoCubit;
+  late TodoController todoController;
   group('Test todo cubit:\n', () {
     setUp(() {
       service = MockTaskService();
       localDatasource = MockTaskLocalDatasource();
       repository = TaskRepositoryImpl(userService: service, taskLocalDatasource: localDatasource);
-      todoCubit = TodoCubit(repository);
+      todoController = TodoController(repository);
       mockInitData(localDatasource, service);
     });
 
     test('The data should be init', () async {
-      await todoCubit.initData();
-      expect(todoCubit.state.tasks?.length, 2);
+      await todoController.initData();
+      expect(todoController.state.value.tasks?.length, 2);
     });
 
     test('The task should be change status', () async {
@@ -34,10 +34,10 @@ void main() {
         status: TaskStatus.inprogress,
       );
       mockInitData(localDatasource, service);
-      await todoCubit.initData();
+      await todoController.initData();
       mockChangeTaskStatus(localDatasource, service);
-      await todoCubit.updateTaskStatus(task, true);
-      expect(todoCubit.state.tasks?.firstWhere((element) => element.id == '1').status, TaskStatus.complete);
+      await todoController.updateTaskStatus(task, true);
+      expect(todoController.state.value.tasks?.firstWhere((element) => element.id == '1').status, TaskStatus.complete);
     });
 
     test('The task should be delete', () async {
@@ -47,15 +47,15 @@ void main() {
         status: TaskStatus.inprogress,
       );
       mockInitData(localDatasource, service);
-      await todoCubit.initData();
+      await todoController.initData();
       mockDeleteTask(localDatasource, service);
-      await todoCubit.deleteTask(task);
-      expect(todoCubit.state.tasks?.length, 1);
+      await todoController.deleteTask(task);
+      expect(todoController.state.value.tasks?.length, 1);
     });
 
     test('The task should be search', () async {
-      await todoCubit.onSearchTasks('Task test 1');
-      expect(todoCubit.state.tasks?.length, 1);
+      await todoController.onSearchTasks('Task test 1');
+      expect(todoController.state.value.tasks?.length, 1);
     });
   });
 }

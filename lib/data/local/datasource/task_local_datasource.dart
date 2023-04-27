@@ -16,7 +16,6 @@ abstract class TaskLocalDatasource {
   Future<void> deleteTask(String taskID);
 }
 
-@LazySingleton(as: TaskLocalDatasource)
 class TaskLocalDatasourceImpl implements TaskLocalDatasource {
   TaskLocalDatasourceImpl(this._sharedPrefs);
 

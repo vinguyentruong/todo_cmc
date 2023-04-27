@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../common/resources/index.dart';
 import '../common/utils/screen_type_ultil.dart';
 import '../configs/build_config.dart';
+import '../di/injection.dart';
 import '../generated/l10n.dart';
 import '../routes/app_routes.dart';
 import 'main/main_page.dart';
@@ -59,7 +61,6 @@ class App extends StatelessWidget {
           primaryColorLight: AppColors.white,
         ),
         debugShowCheckedModeBanner: false,
-        home: const MainPage(),
       ),
     );
   }
