@@ -24,7 +24,8 @@ class PlatformImagePicker {
     }
   }
 
-  static Future<ImageSource?> _showImageSourceActionSheet(BuildContext context) async {
+  static Future<ImageSource?> _showImageSourceActionSheet(
+      BuildContext context) async {
     if (Platform.isIOS) {
       return showCupertinoModalPopup<ImageSource>(
         context: context,

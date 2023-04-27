@@ -51,6 +51,7 @@ dependencies:
   fluttertoast: ^8.2.1
   firebase_core: ^2.9.0
   firebase_database: ^10.1.0
+  responsive_framework: ^1.0.0
 
 dev_dependencies:
   flutter_test:
