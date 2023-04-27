@@ -6,20 +6,23 @@ import 'package:todo_app/configs/firebase_config.dart';
 import 'configs/build_config.dart';
 import 'di/injection.dart';
 import 'pages/app.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<void> mainCommon() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: FirebaseConfigurations.apiKey,
-      appId: FirebaseConfigurations.appId,
-      messagingSenderId: FirebaseConfigurations.messagingSenderId,
-      projectId: FirebaseConfigurations.projectId,
-      authDomain: FirebaseConfigurations.authDomain,
-      databaseURL: FirebaseConfigurations.databaseURL,
-      measurementId: FirebaseConfigurations.measurementId,
-      storageBucket: FirebaseConfigurations.storageBucket,
-    ),
+    options: kIsWeb
+        ? FirebaseOptions(
+            apiKey: FirebaseConfigurations.apiKey,
+            appId: FirebaseConfigurations.appId,
+            messagingSenderId: FirebaseConfigurations.messagingSenderId,
+            projectId: FirebaseConfigurations.projectId,
+            authDomain: FirebaseConfigurations.authDomain,
+            databaseURL: FirebaseConfigurations.databaseURL,
+            measurementId: FirebaseConfigurations.measurementId,
+            storageBucket: FirebaseConfigurations.storageBucket,
+          )
+        : null,
   );
   await configureDependencies();
   if (BuildConfig.debugLog) {
