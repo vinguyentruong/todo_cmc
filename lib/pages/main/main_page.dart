@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/di/injection.dart';
-import 'package:todo_app/pages/todo/bloc/todo_cubit.dart';
 
 import '../../common/event/event_bus_mixin.dart';
 import '../../common/resources/index.dart';
-import '../complete/bloc/complete_cubit.dart';
 import '../complete/complete_page.dart';
-import '../inprogress/bloc/inprogress_cubit.dart';
 import '../inprogress/inprogress_page.dart';
 import '../todo/todo_page.dart';
 
