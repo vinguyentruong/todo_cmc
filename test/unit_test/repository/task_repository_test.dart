@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/common/api_client/data_state.dart';
 import 'package:todo_app/data/local/datasource/task_local_datasource.dart';
 import 'package:todo_app/data/task/response_models/task_model.dart';
@@ -10,7 +11,7 @@ import 'package:todo_app/repositories/task_repository.dart';
 
 import 'task_repository_test.mocks.dart';
 
-@GenerateMocks([TaskService, TaskLocalDatasource])
+@GenerateMocks([TaskLocalDatasource, SharedPreferences], customMocks: [MockSpec<TaskService>(onMissingStub: OnMissingStub.returnDefault)])
 void main() {
   group('Test the Task Repository:\n', () {
     final service = MockTaskService();

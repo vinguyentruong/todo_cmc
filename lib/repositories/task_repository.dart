@@ -13,13 +13,13 @@ abstract class TaskRepository {
 
   Future<DataState<List<Task>>> getTasks();
 
-  Future<DataState<Task>> createTask(Task task);
+  Future<DataState<Task>> createTask(Task? task);
 
   Future<DataState<Task>> updateTask(Task task);
 
-  Future<DataState<bool>> deleteTask(String taskId);
+  Future<DataState<bool>> deleteTask(String? taskId);
 
-  Future<DataState<List<Task>>> searchTasks(String text);
+  Future<DataState<List<Task>>> searchTasks(String? text);
 }
 
 class TaskRepositoryImpl implements TaskRepository {
@@ -32,12 +32,12 @@ class TaskRepositoryImpl implements TaskRepository {
   final TaskLocalDatasource _taskLocalDatasource;
 
   @override
-  Future<DataState<Task>> createTask(Task task) {
+  Future<DataState<Task>> createTask(Task? task) {
     return _taskService.createTask(CreateTaskRequest(task: TaskModel.fromModel(task)));
   }
 
   @override
-  Future<DataState<bool>> deleteTask(String taskId) async {
+  Future<DataState<bool>> deleteTask(String? taskId) async {
     final result = await _taskService.deleteTask(taskId);
     if (result.isSuccess()) {
       _taskLocalDatasource.deleteTask(taskId);
@@ -70,7 +70,7 @@ class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<DataState<List<Task>>> searchTasks(String text) async {
+  Future<DataState<List<Task>>> searchTasks(String? text) async {
     final result = await _taskService.getTasks();
     List<TaskModel>? tasks;
     if (result.isSuccess() && result.data != null) {

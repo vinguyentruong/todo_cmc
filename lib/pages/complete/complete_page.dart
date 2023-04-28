@@ -36,12 +36,12 @@ class _CompletePageState extends State<CompletePage> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-
-    _controller.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //
+  //   _controller.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

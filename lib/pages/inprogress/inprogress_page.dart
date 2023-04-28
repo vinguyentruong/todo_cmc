@@ -36,12 +36,12 @@ class _InProgressPageState extends State<InProgressPage> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-
-    _controller.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //
+  //   _controller.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

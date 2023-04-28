@@ -6,16 +6,17 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:shared_preferences/shared_preferences.dart' as _i7;
 import 'package:todo_app/common/api_client/data_state.dart' as _i2;
 import 'package:todo_app/data/local/datasource/task_local_datasource.dart'
-    as _i8;
+    as _i3;
 import 'package:todo_app/data/task/request_models/create_task_request.dart'
-    as _i6;
+    as _i9;
 import 'package:todo_app/data/task/request_models/update_task_request.dart'
-    as _i7;
+    as _i10;
 import 'package:todo_app/data/task/response_models/task_model.dart' as _i5;
-import 'package:todo_app/data/task/task_service.dart' as _i3;
-import 'package:todo_app/models/task.dart' as _i9;
+import 'package:todo_app/data/task/task_service.dart' as _i8;
+import 'package:todo_app/models/task.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -38,14 +39,221 @@ class _FakeDataState_0<T> extends _i1.SmartFake implements _i2.DataState<T> {
         );
 }
 
-/// A class which mocks [TaskService].
+/// A class which mocks [TaskLocalDatasource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTaskService extends _i1.Mock implements _i3.TaskService {
-  MockTaskService() {
+class MockTaskLocalDatasource extends _i1.Mock
+    implements _i3.TaskLocalDatasource {
+  MockTaskLocalDatasource() {
     _i1.throwOnMissingStub(this);
   }
 
+  @override
+  _i4.Future<List<_i5.TaskModel>?> getTasks() => (super.noSuchMethod(
+        Invocation.method(
+          #getTasks,
+          [],
+        ),
+        returnValue: _i4.Future<List<_i5.TaskModel>?>.value(),
+      ) as _i4.Future<List<_i5.TaskModel>?>);
+  @override
+  _i4.Future<void> setTasks(List<_i6.Task>? tasks) => (super.noSuchMethod(
+        Invocation.method(
+          #setTasks,
+          [tasks],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<void> updateTask(_i6.Task? task) => (super.noSuchMethod(
+        Invocation.method(
+          #updateTask,
+          [task],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<void> deleteTask(String? taskID) => (super.noSuchMethod(
+        Invocation.method(
+          #deleteTask,
+          [taskID],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+}
+
+/// A class which mocks [SharedPreferences].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSharedPreferences extends _i1.Mock implements _i7.SharedPreferences {
+  MockSharedPreferences() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  Set<String> getKeys() => (super.noSuchMethod(
+        Invocation.method(
+          #getKeys,
+          [],
+        ),
+        returnValue: <String>{},
+      ) as Set<String>);
+  @override
+  Object? get(String? key) => (super.noSuchMethod(Invocation.method(
+        #get,
+        [key],
+      )) as Object?);
+  @override
+  bool? getBool(String? key) => (super.noSuchMethod(Invocation.method(
+        #getBool,
+        [key],
+      )) as bool?);
+  @override
+  int? getInt(String? key) => (super.noSuchMethod(Invocation.method(
+        #getInt,
+        [key],
+      )) as int?);
+  @override
+  double? getDouble(String? key) => (super.noSuchMethod(Invocation.method(
+        #getDouble,
+        [key],
+      )) as double?);
+  @override
+  String? getString(String? key) => (super.noSuchMethod(Invocation.method(
+        #getString,
+        [key],
+      )) as String?);
+  @override
+  bool containsKey(String? key) => (super.noSuchMethod(
+        Invocation.method(
+          #containsKey,
+          [key],
+        ),
+        returnValue: false,
+      ) as bool);
+  @override
+  List<String>? getStringList(String? key) =>
+      (super.noSuchMethod(Invocation.method(
+        #getStringList,
+        [key],
+      )) as List<String>?);
+  @override
+  _i4.Future<bool> setBool(
+    String? key,
+    bool? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setBool,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+  @override
+  _i4.Future<bool> setInt(
+    String? key,
+    int? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setInt,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+  @override
+  _i4.Future<bool> setDouble(
+    String? key,
+    double? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setDouble,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+  @override
+  _i4.Future<bool> setString(
+    String? key,
+    String? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setString,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+  @override
+  _i4.Future<bool> setStringList(
+    String? key,
+    List<String>? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setStringList,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+  @override
+  _i4.Future<bool> remove(String? key) => (super.noSuchMethod(
+        Invocation.method(
+          #remove,
+          [key],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+  @override
+  _i4.Future<bool> commit() => (super.noSuchMethod(
+        Invocation.method(
+          #commit,
+          [],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+  @override
+  _i4.Future<bool> clear() => (super.noSuchMethod(
+        Invocation.method(
+          #clear,
+          [],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+  @override
+  _i4.Future<void> reload() => (super.noSuchMethod(
+        Invocation.method(
+          #reload,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+}
+
+/// A class which mocks [TaskService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTaskService extends _i1.Mock implements _i8.TaskService {
   @override
   _i4.Future<_i2.DataState<List<_i5.TaskModel>>> getTasks() =>
       (super.noSuchMethod(
@@ -61,10 +269,19 @@ class MockTaskService extends _i1.Mock implements _i3.TaskService {
             [],
           ),
         )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.DataState<List<_i5.TaskModel>>>.value(
+                _FakeDataState_0<List<_i5.TaskModel>>(
+          this,
+          Invocation.method(
+            #getTasks,
+            [],
+          ),
+        )),
       ) as _i4.Future<_i2.DataState<List<_i5.TaskModel>>>);
   @override
   _i4.Future<_i2.DataState<_i5.TaskModel>> createTask(
-          _i6.CreateTaskRequest? data) =>
+          _i9.CreateTaskRequest? data) =>
       (super.noSuchMethod(
         Invocation.method(
           #createTask,
@@ -78,10 +295,19 @@ class MockTaskService extends _i1.Mock implements _i3.TaskService {
             [data],
           ),
         )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.DataState<_i5.TaskModel>>.value(
+                _FakeDataState_0<_i5.TaskModel>(
+          this,
+          Invocation.method(
+            #createTask,
+            [data],
+          ),
+        )),
       ) as _i4.Future<_i2.DataState<_i5.TaskModel>>);
   @override
   _i4.Future<_i2.DataState<_i5.TaskModel>> updateTask(
-          _i7.UpdateTaskRequest? data) =>
+          _i10.UpdateTaskRequest? data) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateTask,
@@ -89,6 +315,15 @@ class MockTaskService extends _i1.Mock implements _i3.TaskService {
         ),
         returnValue: _i4.Future<_i2.DataState<_i5.TaskModel>>.value(
             _FakeDataState_0<_i5.TaskModel>(
+          this,
+          Invocation.method(
+            #updateTask,
+            [data],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.DataState<_i5.TaskModel>>.value(
+                _FakeDataState_0<_i5.TaskModel>(
           this,
           Invocation.method(
             #updateTask,
@@ -111,51 +346,13 @@ class MockTaskService extends _i1.Mock implements _i3.TaskService {
             [taskId],
           ),
         )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.DataState<bool>>.value(_FakeDataState_0<bool>(
+          this,
+          Invocation.method(
+            #deleteTask,
+            [taskId],
+          ),
+        )),
       ) as _i4.Future<_i2.DataState<bool>>);
-}
-
-/// A class which mocks [TaskLocalDatasource].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockTaskLocalDatasource extends _i1.Mock
-    implements _i8.TaskLocalDatasource {
-  MockTaskLocalDatasource() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i4.Future<List<_i5.TaskModel>?> getTasks() => (super.noSuchMethod(
-        Invocation.method(
-          #getTasks,
-          [],
-        ),
-        returnValue: _i4.Future<List<_i5.TaskModel>?>.value(),
-      ) as _i4.Future<List<_i5.TaskModel>?>);
-  @override
-  _i4.Future<void> setTasks(List<_i9.Task>? tasks) => (super.noSuchMethod(
-        Invocation.method(
-          #setTasks,
-          [tasks],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-  @override
-  _i4.Future<void> updateTask(_i9.Task? task) => (super.noSuchMethod(
-        Invocation.method(
-          #updateTask,
-          [task],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-  @override
-  _i4.Future<void> deleteTask(String? taskID) => (super.noSuchMethod(
-        Invocation.method(
-          #deleteTask,
-          [taskID],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
 }

@@ -186,6 +186,9 @@ class _TodoPageState extends State<TodoPage> {
     super.initState();
 
     _controller.state.listen((status) {
+      if (!mounted) {
+        return;
+      }
       _handleStateListener(status.status);
     });
 
@@ -194,12 +197,12 @@ class _TodoPageState extends State<TodoPage> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-
-    _controller.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //
+  //   _controller.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -245,6 +248,7 @@ class _TodoPageState extends State<TodoPage> {
             child: Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
+                tooltip: 'AddTaskButton',
                 onPressed: () => _onAddTapped(context),
                 child: Icon(Icons.add),
                 backgroundColor: AppColors.primaryColor,
