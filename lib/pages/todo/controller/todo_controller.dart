@@ -1,26 +1,42 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:todo_app/common/event/event_bus_mixin.dart';
+import 'package:todo_app/configs/grpc_config.dart';
 import 'package:todo_app/pages/todo/controller/todo_state.dart';
 
 import '../../../common/api_client/data_state.dart';
 import '../../../common/enums/data_source_status.dart';
 import '../../../common/enums/status.dart';
+import '../../../data/generated/todogrpc/todo.pb.dart';
+import '../../../data/service/todo_service.dart';
 import '../../../models/task.dart';
 import '../../../repositories/task_repository.dart';
 import '../../helper/event_bus/task_events.dart';
 
 class TodoController extends GetxController with EventBusMixin {
-
-  TodoController(this._taskRepository) {
+  TodoController(
+    this._taskRepository,
+  ) {
     listenEvent<OnCreateTaskEvent>((_) => _fetchTasks());
     listenEvent<OnUpdateTaskEvent>((_) => _fetchTasks());
   }
 
   final TaskRepository _taskRepository;
+  late StreamSubscription _streamSubscription;
+
+  late TodoService _todoService;
   final Rx<TodoState> state = TodoState().obs;
 
-
   Future<void> initData() async {
+    _todoService = TodoService(
+        clientChannel: GrpcConfig().clientChannel,
+        streamController: StreamController<Dynamic>());
+    _streamSubscription = _todoService.streamTodo().listen((value) {
+      print(value);
+    });
+    final list = await _todoService.readTodo();
+    print(list);
     _getTasks();
   }
 
@@ -29,7 +45,8 @@ class TodoController extends GetxController with EventBusMixin {
     try {
       final result = await _taskRepository.getCachedTasks();
       if (result != null) {
-        state(state.value.copyWith(tasks: result, dataStatus: DataSourceStatus.refreshing));
+        state(state.value
+            .copyWith(tasks: result, dataStatus: DataSourceStatus.refreshing));
       } else {
         state(state.value.copyWith(dataStatus: DataSourceStatus.failed));
       }
@@ -44,7 +61,11 @@ class TodoController extends GetxController with EventBusMixin {
     try {
       final result = await _taskRepository.getTasks();
       if (result is DataSuccess) {
-        state(state.value.copyWith(tasks: result.data, dataStatus: (result.data?.isNotEmpty ?? false) ? DataSourceStatus.success : DataSourceStatus.empty));
+        state(state.value.copyWith(
+            tasks: result.data,
+            dataStatus: (result.data?.isNotEmpty ?? false)
+                ? DataSourceStatus.success
+                : DataSourceStatus.empty));
       } else {
         state(state.value.copyWith(dataStatus: DataSourceStatus.failed));
       }
@@ -62,7 +83,11 @@ class TodoController extends GetxController with EventBusMixin {
     try {
       final result = await _taskRepository.searchTasks(text!);
       if (result is DataSuccess) {
-        state(state.value.copyWith(tasks: result.data, dataStatus: (result.data?.isNotEmpty ?? false) ? DataSourceStatus.success : DataSourceStatus.empty));
+        state(state.value.copyWith(
+            tasks: result.data,
+            dataStatus: (result.data?.isNotEmpty ?? false)
+                ? DataSourceStatus.success
+                : DataSourceStatus.empty));
       } else {
         state(state.value.copyWith(dataStatus: DataSourceStatus.failed));
       }
@@ -83,18 +108,24 @@ class TodoController extends GetxController with EventBusMixin {
     try {
       final result = await _taskRepository.deleteTask(task!.id!);
       if (result is DataSuccess) {
-        final newTasks = state.value.tasks?..removeWhere((element) => element.id == task.id);
+        final newTasks = state.value.tasks
+          ?..removeWhere((element) => element.id == task.id);
         state(state.value.copyWith(
             tasks: newTasks,
             status: RequestStatus.success,
-            dataStatus: (newTasks?.isNotEmpty ?? false) ? DataSourceStatus.success : DataSourceStatus.empty
-        ));
+            dataStatus: (newTasks?.isNotEmpty ?? false)
+                ? DataSourceStatus.success
+                : DataSourceStatus.empty));
         shareEvent(OnDeleteTaskEvent(task));
       } else {
-        state(state.value.copyWith(status: RequestStatus.failed, message: result.message,));
+        state(state.value.copyWith(
+          status: RequestStatus.failed,
+          message: result.message,
+        ));
       }
     } catch (e) {
-      state(state.value.copyWith(status: RequestStatus.failed, message: e.toString()));
+      state(state.value
+          .copyWith(status: RequestStatus.failed, message: e.toString()));
     }
   }
 
@@ -116,41 +147,51 @@ class TodoController extends GetxController with EventBusMixin {
       final result = await _taskRepository.updateTask(newTask);
       if (result is DataSuccess) {
         final List<Task> newTasks = List.from(state.value.tasks ?? []);
-        final index = newTasks.indexWhere((element) => element.id == newTask.id);
+        final index =
+            newTasks.indexWhere((element) => element.id == newTask.id);
         if (index >= 0) {
           newTasks[index] = newTask;
         }
-        state(state.value.copyWith(status: RequestStatus.success, message: result.message, tasks: newTasks));
+        state(state.value.copyWith(
+            status: RequestStatus.success,
+            message: result.message,
+            tasks: newTasks));
         // await _fetchTasks();
         shareEvent(OnUpdateTaskEvent(task));
       } else {
-        state(state.value.copyWith(status: RequestStatus.failed, message: result.message));
+        state(state.value
+            .copyWith(status: RequestStatus.failed, message: result.message));
       }
     } catch (e) {
-      state(state.value.copyWith(status: RequestStatus.failed, message: e.toString()));
+      state(state.value
+          .copyWith(status: RequestStatus.failed, message: e.toString()));
     }
   }
 
   void onSortByTitle() {
-    final values = List<Task>.from(state.value.tasks ?? [])..sort((a,b) {
-      return (a.name ?? '').compareTo(b.name ?? '');
-    });
+    final values = List<Task>.from(state.value.tasks ?? [])
+      ..sort((a, b) {
+        return (a.name ?? '').compareTo(b.name ?? '');
+      });
 
     state(state.value.copyWith(tasks: values));
   }
 
   void onSortByDesc() {
-    final values = List<Task>.from(state.value.tasks ?? [])..sort((a,b) {
-      return (a.desc ?? '').compareTo(b.desc ?? '');
-    });
+    final values = List<Task>.from(state.value.tasks ?? [])
+      ..sort((a, b) {
+        return (a.desc ?? '').compareTo(b.desc ?? '');
+      });
 
     state(state.value.copyWith(tasks: values));
   }
 
   void onSortByDate() {
-    final values = List<Task>.from(state.value.tasks ?? [])..sort((a,b) {
-      return (a.createAt ?? DateTime.now()).compareTo(b.createAt ?? DateTime.now());
-    });
+    final values = List<Task>.from(state.value.tasks ?? [])
+      ..sort((a, b) {
+        return (a.createAt ?? DateTime.now())
+            .compareTo(b.createAt ?? DateTime.now());
+      });
 
     state(state.value.copyWith(tasks: values));
   }

@@ -52,6 +52,8 @@ dependencies:
   responsive_framework: ^1.0.0
   get: ^4.6.5
   get_storage: ^2.1.1
+  grpc: ^3.0.2
+  protobuf: ^2.1.0 
 
 dev_dependencies:
   flutter_test:
