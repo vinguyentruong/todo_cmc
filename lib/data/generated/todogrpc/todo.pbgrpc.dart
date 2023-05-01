@@ -38,10 +38,6 @@ class TodoServiceClient extends $grpc.Client {
           ($0.TodoDeleteRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.TodoDeleteResponse.fromBuffer(value));
-  static final _$streamTodo = $grpc.ClientMethod<$0.Dynamic, $0.ListTodo>(
-      '/TodoService/streamTodo',
-      ($0.Dynamic value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.ListTodo.fromBuffer(value));
 
   TodoServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -69,12 +65,6 @@ class TodoServiceClient extends $grpc.Client {
       $0.TodoDeleteRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteTodo, request, options: options);
-  }
-
-  $grpc.ResponseStream<$0.ListTodo> streamTodo(
-      $async.Stream<$0.Dynamic> request,
-      {$grpc.CallOptions? options}) {
-    return $createStreamingCall(_$streamTodo, request, options: options);
   }
 }
 
@@ -110,13 +100,6 @@ abstract class TodoServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.TodoDeleteRequest.fromBuffer(value),
         ($0.TodoDeleteResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.Dynamic, $0.ListTodo>(
-        'streamTodo',
-        streamTodo,
-        true,
-        true,
-        ($core.List<$core.int> value) => $0.Dynamic.fromBuffer(value),
-        ($0.ListTodo value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.TodoCreateResponse> createTodo_Pre($grpc.ServiceCall call,
@@ -147,6 +130,4 @@ abstract class TodoServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.TodoUpdateRequest request);
   $async.Future<$0.TodoDeleteResponse> deleteTodo(
       $grpc.ServiceCall call, $0.TodoDeleteRequest request);
-  $async.Stream<$0.ListTodo> streamTodo(
-      $grpc.ServiceCall call, $async.Stream<$0.Dynamic> request);
 }

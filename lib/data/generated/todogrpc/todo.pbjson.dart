@@ -70,12 +70,12 @@ final $typed_data.Uint8List todoCreateResponseDescriptor = $convert.base64Decode
 const TodoReadRequest$json = const {
   '1': 'TodoReadRequest',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
   ],
 };
 
 /// Descriptor for `TodoReadRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List todoReadRequestDescriptor = $convert.base64Decode('Cg9Ub2RvUmVhZFJlcXVlc3QSDgoCaWQYASABKAVSAmlk');
+final $typed_data.Uint8List todoReadRequestDescriptor = $convert.base64Decode('Cg9Ub2RvUmVhZFJlcXVlc3QSDgoCaWQYASABKAlSAmlk');
 @$core.Deprecated('Use todoReadResponseDescriptor instead')
 const TodoReadResponse$json = const {
   '1': 'TodoReadResponse',
@@ -90,12 +90,12 @@ final $typed_data.Uint8List todoReadResponseDescriptor = $convert.base64Decode('
 const TodoUpdateRequest$json = const {
   '1': 'TodoUpdateRequest',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
+    const {'1': 'todo', '3': 1, '4': 1, '5': 11, '6': '.Todo', '10': 'todo'},
   ],
 };
 
 /// Descriptor for `TodoUpdateRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List todoUpdateRequestDescriptor = $convert.base64Decode('ChFUb2RvVXBkYXRlUmVxdWVzdBIOCgJpZBgBIAEoBVICaWQ=');
+final $typed_data.Uint8List todoUpdateRequestDescriptor = $convert.base64Decode('ChFUb2RvVXBkYXRlUmVxdWVzdBIZCgR0b2RvGAEgASgLMgUuVG9kb1IEdG9kbw==');
 @$core.Deprecated('Use todoUpdateResponseDescriptor instead')
 const TodoUpdateResponse$json = const {
   '1': 'TodoUpdateResponse',
@@ -110,12 +110,12 @@ final $typed_data.Uint8List todoUpdateResponseDescriptor = $convert.base64Decode
 const TodoDeleteRequest$json = const {
   '1': 'TodoDeleteRequest',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
   ],
 };
 
 /// Descriptor for `TodoDeleteRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List todoDeleteRequestDescriptor = $convert.base64Decode('ChFUb2RvRGVsZXRlUmVxdWVzdBIOCgJpZBgBIAEoBVICaWQ=');
+final $typed_data.Uint8List todoDeleteRequestDescriptor = $convert.base64Decode('ChFUb2RvRGVsZXRlUmVxdWVzdBIOCgJpZBgBIAEoCVICaWQ=');
 @$core.Deprecated('Use todoDeleteResponseDescriptor instead')
 const TodoDeleteResponse$json = const {
   '1': 'TodoDeleteResponse',

@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:todo_app/common/event/event_bus_mixin.dart';
 import 'package:todo_app/configs/grpc_config.dart';
+import 'package:todo_app/data/service/grpc/task_grpc_service.dart';
 import 'package:todo_app/pages/todo/controller/todo_state.dart';
 
 import '../../../common/api_client/data_state.dart';
 import '../../../common/enums/data_source_status.dart';
 import '../../../common/enums/status.dart';
-import '../../../data/generated/todogrpc/todo.pb.dart';
-import '../../../data/service/todo_service.dart';
 import '../../../models/task.dart';
 import '../../../repositories/task_repository.dart';
 import '../../helper/event_bus/task_events.dart';
@@ -23,20 +22,10 @@ class TodoController extends GetxController with EventBusMixin {
   }
 
   final TaskRepository _taskRepository;
-  late StreamSubscription _streamSubscription;
 
-  late TodoService _todoService;
   final Rx<TodoState> state = TodoState().obs;
 
   Future<void> initData() async {
-    _todoService = TodoService(
-        clientChannel: GrpcConfig().clientChannel,
-        streamController: StreamController<Dynamic>());
-    _streamSubscription = _todoService.streamTodo().listen((value) {
-      print(value);
-    });
-    final list = await _todoService.readTodo();
-    print(list);
     _getTasks();
   }
 

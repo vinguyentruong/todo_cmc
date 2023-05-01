@@ -360,13 +360,13 @@ class TodoCreateResponse extends $pb.GeneratedMessage {
 
 class TodoReadRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'TodoReadRequest', createEmptyInstance: create)
-    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id', $pb.PbFieldType.O3)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
     ..hasRequiredFields = false
   ;
 
   TodoReadRequest._() : super();
   factory TodoReadRequest({
-    $core.int? id,
+    $core.String? id,
   }) {
     final _result = create();
     if (id != null) {
@@ -396,9 +396,9 @@ class TodoReadRequest extends $pb.GeneratedMessage {
   static TodoReadRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get id => $_getIZ(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set id($core.int v) { $_setSignedInt32(0, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
@@ -448,17 +448,17 @@ class TodoReadResponse extends $pb.GeneratedMessage {
 
 class TodoUpdateRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'TodoUpdateRequest', createEmptyInstance: create)
-    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id', $pb.PbFieldType.O3)
+    ..aOM<Todo>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'todo', subBuilder: Todo.create)
     ..hasRequiredFields = false
   ;
 
   TodoUpdateRequest._() : super();
   factory TodoUpdateRequest({
-    $core.int? id,
+    Todo? todo,
   }) {
     final _result = create();
-    if (id != null) {
-      _result.id = id;
+    if (todo != null) {
+      _result.todo = todo;
     }
     return _result;
   }
@@ -484,13 +484,15 @@ class TodoUpdateRequest extends $pb.GeneratedMessage {
   static TodoUpdateRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get id => $_getIZ(0);
+  Todo get todo => $_getN(0);
   @$pb.TagNumber(1)
-  set id($core.int v) { $_setSignedInt32(0, v); }
+  set todo(Todo v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
+  $core.bool hasTodo() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearTodo() => clearField(1);
+  @$pb.TagNumber(1)
+  Todo ensureTodo() => $_ensure(0);
 }
 
 class TodoUpdateResponse extends $pb.GeneratedMessage {
@@ -542,13 +544,13 @@ class TodoUpdateResponse extends $pb.GeneratedMessage {
 
 class TodoDeleteRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'TodoDeleteRequest', createEmptyInstance: create)
-    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id', $pb.PbFieldType.O3)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
     ..hasRequiredFields = false
   ;
 
   TodoDeleteRequest._() : super();
   factory TodoDeleteRequest({
-    $core.int? id,
+    $core.String? id,
   }) {
     final _result = create();
     if (id != null) {
@@ -578,9 +580,9 @@ class TodoDeleteRequest extends $pb.GeneratedMessage {
   static TodoDeleteRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get id => $_getIZ(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set id($core.int v) { $_setSignedInt32(0, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)

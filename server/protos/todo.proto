@@ -24,7 +24,6 @@ service TodoService {
     rpc readTodo(TodoReadRequest) returns (TodoReadResponse);
     rpc updateTodo(TodoUpdateRequest) returns (TodoUpdateResponse);
     rpc deleteTodo(TodoDeleteRequest) returns (TodoDeleteResponse);
-    rpc streamTodo(stream Dynamic) returns (stream ListTodo);
 }
 
 // create
@@ -37,7 +36,7 @@ message TodoCreateResponse{
 
 // read
 message TodoReadRequest{
-    int32 id = 1;
+    string id = 1;
 }
 
 message TodoReadResponse{
@@ -46,7 +45,7 @@ message TodoReadResponse{
 
 //update
 message TodoUpdateRequest{
-    int32 id = 1; 
+    Todo todo = 1;
 } 
 message TodoUpdateResponse{
     bool result = 1;
@@ -54,7 +53,7 @@ message TodoUpdateResponse{
 
 //delete 
 message TodoDeleteRequest{
-    int32 id = 1; 
+    string id = 1; 
 } 
 message TodoDeleteResponse{
     bool result = 1;

@@ -22,7 +22,8 @@ class TodoService extends TodoServiceBase {
   @override
   Future<TodoReadResponse> readTodo(
       ServiceCall call, TodoReadRequest request) async {
-    if (request.id > 0) {
+    print(request.id.isNotEmpty);
+    if (request.id.isNotEmpty) {
       final todo = findTodo(request.id);
       return TodoReadResponse(todos: todo);
     }
@@ -33,8 +34,15 @@ class TodoService extends TodoServiceBase {
   @override
   Future<TodoUpdateResponse> updateTodo(
       ServiceCall call, TodoUpdateRequest request) async {
-    var target = todos.firstWhere((element) => element['id'] == request.id);
-    target['completed'] = target['completed'] == true ? false : true;
+    var target =
+        todos.firstWhere((element) => element['id'] == request.todo.id);
+    target['id'] = request.todo.id;
+    target['title'] = request.todo.title;
+    target['description'] = request.todo.description;
+    target['image'] = request.todo.image;
+    target['status'] = request.todo.status;
+    target['createdAt'] = request.todo.createdAt;
+    target['expiredAt'] = request.todo.expiredAt;
     return TodoUpdateResponse(result: true);
   }
 
@@ -44,43 +52,9 @@ class TodoService extends TodoServiceBase {
     todos.removeWhere((e) => e['id'] == request.id);
     return TodoDeleteResponse(result: true);
   }
-
-  @override
-  Stream<ListTodo> streamTodo(
-      ServiceCall call, Stream<Dynamic> request) async* {
-    await for (var req in request) {
-      if (!req.todoCreate.isFrozen) {
-        createTodo(call, TodoCreateRequest(todo: req.todoCreate.todo));
-      }
-      if (!req.todoDelete.isFrozen) {
-        deleteTodo(call, TodoDeleteRequest(id: req.todoDelete.id));
-      }
-      if (!req.todoUpdate.isFrozen) {
-        updateTodo(call, TodoUpdateRequest(id: req.todoUpdate.id));
-      }
-      List<Todo> todoList = [];
-      if (todos.isEmpty) {
-        print('array is empty');
-        yield ListTodo(todos: []);
-      } else {
-        for (var todo in todos) {
-          todoList.add(Todo.fromJson('''{
-        "1": "${todo['id']}",
-        "2":"${todo['title']}",
-        "3":"${todo['description']}",
-        "4":"${todo['image']}",
-        "5":"${todo['status']}",
-        "6":"${todo['createdAt']}",
-        "7":"${todo['expiredAt']}"
-      }'''));
-          yield ListTodo(todos: todoList);
-        }
-      }
-    }
-  }
 }
 
-List<Todo> findTodo(int id) {
+List<Todo> findTodo(String id) {
   return todos.where((e) => e['id'] == id).map(convertToTodo).toList();
 }
 
