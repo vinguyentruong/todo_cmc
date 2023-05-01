@@ -13,7 +13,7 @@ abstract class TaskService {
 
   Future<DataState<TaskModel>> updateTask(UpdateTaskRequest data);
 
-  Future<DataState<bool>> deleteTask(String taskId);
+  Future<DataState<bool>> deleteTask(String? taskId);
 }
 
 class TaskServiceImpl implements TaskService {
@@ -54,7 +54,7 @@ class TaskServiceImpl implements TaskService {
   }
 
   @override
-  Future<DataState<bool>> deleteTask(String taskId) async {
+  Future<DataState<bool>> deleteTask(String? taskId) async {
     return ref
         .child('tasks/data/$taskId')
         .remove()

@@ -52,7 +52,7 @@ class TaskGrpcService implements TaskService {
   }
 
   @override
-  Future<DataState<bool>> deleteTask(String taskId) async {
+  Future<DataState<bool>> deleteTask(String? taskId) async {
     final stub = TodoServiceClient(clientChannel);
     try {
       await stub.deleteTodo(

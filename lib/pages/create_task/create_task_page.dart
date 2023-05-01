@@ -114,6 +114,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: SizedBox(
                 width: double.infinity,
+                height: 48,
                 child: TextButton(
                   child: Text(
                     Strings.localized.submit,

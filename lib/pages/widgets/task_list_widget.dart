@@ -10,7 +10,7 @@ import '../todo/helper/task_options.dart';
 import 'detail_option_widget.dart';
 
 class TaskListWidget extends StatelessWidget {
-  const   TaskListWidget({
+  const TaskListWidget({
     Key? key,
     required this.tasks,
     this.onItemTapped,
@@ -33,125 +33,11 @@ class TaskListWidget extends StatelessWidget {
       itemCount: (tasks ?? []).length,
       itemBuilder: (context, index) {
         final task = tasks?[index];
-        return Container(
-          margin: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-          decoration: BoxDecoration(
-            color: task?.status == TaskStatus.complete ? AppColors.green400 : AppColors.white,
-            borderRadius: BorderRadius.circular(6),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3), // changes position of shadow
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: Material(
-              color: AppColors.transparent,
-              child: InkWell(
-                onTap: () => onItemTapped?.call(tasks?[index]),
-                borderRadius: BorderRadius.circular(6),
-                child: Ink(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Spacing(),
-                        DefaultImageWidget(
-                          task?.image,
-                          width: 40,
-                          height: 40,
-                          radius: 20,
-                        ),
-                        Expanded(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Spacing(),
-                              Flexible(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      task?.name ?? '',
-                                      style: TextStyles.blackNormalBold,
-                                    ),
-                                    const TitleSpacing(),
-                                    if ((task?.desc ?? '').isNotEmpty)
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.edit,
-                                            size: 17,
-                                          ),
-                                          const TitleSpacing(),
-                                          Text(
-                                            task?.desc ?? '',
-                                            style: TextStyles.blackSmallRegular,
-                                          ),
-                                        ],
-                                      ),
-                                    const TitleSpacing(),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.access_time,
-                                          color: AppColors.black,
-                                          size: 17,
-                                        ),
-                                        const TitleSpacing(),
-                                        Text(
-                                          task?.createAt?.toMMDDYYHHMMAString() ?? '',
-                                          style: TextStyles.blackSmallMedium,
-                                        ),
-                                      ],
-                                    ),
-                                    const TitleSpacing(),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          Strings.localized.status + ': ',
-                                          style: TextStyles.blackSmallMedium,
-                                        ),
-                                        Text(
-                                          (task?.status?.name ?? ''),
-                                          style: TextStyles.greySmallBold.copyWith(
-                                              color: task?.status == TaskStatus.complete
-                                                  ? AppColors.white
-                                                  : AppColors.blue),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              if (showCheckBox)
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: AppCheckbox(
-                                    isSelected: task?.status == TaskStatus.complete,
-                                    onChanged: (val) => onChecked?.call(task, val),
-                                  ),
-                                ),
-                              InkWell(
-                                child: Icon(Icons.more_vert_rounded),
-                                onTap: () => _onTaskDetailOptionTapped(context, task),
-                              ),
-                              const Spacing(width: 8),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+        return TaskItemWidget(
+          task: task,
+          onChecked: onChecked,
+          onItemTapped: onItemTapped,
+          onTaskDetailOptionTapped: _onTaskDetailOptionTapped,
         );
       },
     );
@@ -179,5 +65,146 @@ class TaskListWidget extends StatelessWidget {
         onDeleteTapped?.call(task);
         break;
     }
+  }
+}
+
+class TaskItemWidget extends StatelessWidget {
+  const TaskItemWidget({
+    Key? key,
+    this.task,
+    this.onItemTapped,
+    this.onTaskDetailOptionTapped,
+    this.onChecked,
+    this.showCheckBox = true,
+  }) : super(key: key);
+
+  final Task? task;
+  final Function(Task? task)? onItemTapped;
+  final Function(Task? task, bool value)? onChecked;
+  final bool showCheckBox;
+  final Function(BuildContext context, Task? task)? onTaskDetailOptionTapped;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+      decoration: BoxDecoration(
+        color: task?.status == TaskStatus.complete ? AppColors.green400 : AppColors.white,
+        borderRadius: BorderRadius.circular(6),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(6),
+        child: Material(
+          color: AppColors.transparent,
+          child: InkWell(
+            onTap: () => onItemTapped?.call(task),
+            borderRadius: BorderRadius.circular(6),
+            child: Ink(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Spacing(),
+                    DefaultImageWidget(
+                      task?.image,
+                      width: 40,
+                      height: 40,
+                      radius: 20,
+                    ),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Spacing(),
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  task?.name ?? '',
+                                  style: TextStyles.blackNormalBold,
+                                ),
+                                const TitleSpacing(),
+                                if ((task?.desc ?? '').isNotEmpty)
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.edit,
+                                        size: 17,
+                                      ),
+                                      const TitleSpacing(),
+                                      Text(
+                                        task?.desc ?? '',
+                                        style: TextStyles.blackSmallRegular,
+                                      ),
+                                    ],
+                                  ),
+                                const TitleSpacing(),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.access_time,
+                                      color: AppColors.black,
+                                      size: 17,
+                                    ),
+                                    const TitleSpacing(),
+                                    Text(
+                                      task?.createAt?.toMMDDYYHHMMAString() ?? '',
+                                      style: TextStyles.blackSmallMedium,
+                                    ),
+                                  ],
+                                ),
+                                const TitleSpacing(),
+                                Row(
+                                  children: [
+                                    Text(
+                                      Strings.localized.status + ': ',
+                                      style: TextStyles.blackSmallMedium,
+                                    ),
+                                    Text(
+                                      (task?.status?.name ?? ''),
+                                      style: TextStyles.greySmallBold.copyWith(
+                                          color: task?.status == TaskStatus.complete
+                                              ? AppColors.white
+                                              : AppColors.blue),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          if (showCheckBox)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: AppCheckbox(
+                                isSelected: task?.status == TaskStatus.complete,
+                                onChanged: (val) => onChecked?.call(task, val),
+                              ),
+                            ),
+                          InkWell(
+                            child: Icon(Icons.more_vert_rounded),
+                            onTap: () => onTaskDetailOptionTapped?.call(context, task),
+                          ),
+                          const Spacing(width: 8),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

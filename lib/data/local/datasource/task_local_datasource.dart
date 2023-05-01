@@ -13,7 +13,7 @@ abstract class TaskLocalDatasource {
 
   Future<void> updateTask(Task task);
 
-  Future<void> deleteTask(String taskID);
+  Future<void> deleteTask(String? taskID);
 }
 
 class TaskLocalDatasourceImpl implements TaskLocalDatasource {
@@ -48,7 +48,7 @@ class TaskLocalDatasourceImpl implements TaskLocalDatasource {
   }
 
   @override
-  Future<void> deleteTask(String taskID) async {
+  Future<void> deleteTask(String? taskID) async {
     final List<TaskModel>? tasks = await getTasks();
     tasks?.removeWhere((element) => element.id == taskID);
     setTasks(List.from((tasks ?? []).map((e) => e)));
